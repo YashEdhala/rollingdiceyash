@@ -11,8 +11,7 @@ function rollDice(sides) {
     return Math.floor(Math.random() * sides) + 1;
 }
 
-// API Routes
-// Roll a single die
+
 app.get('/api/roll/:sides', (req, res) => {
     const sides = parseInt(req.params.sides);
     if (isNaN(sides) || sides < 1) {
@@ -38,7 +37,6 @@ app.post('/api/roll', (req, res) => {
     });
 });
 
-// Health check endpoint
 app.get('/api/health', (req, res) => {
     res.json({ status: 'healthy', timestamp: new Date().toISOString() });
 });
