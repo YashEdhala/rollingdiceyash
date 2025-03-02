@@ -1,65 +1,57 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>About Me</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roller API Test</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            line-height: 1.6;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
-        }
-        .main-info {
-            background: #333;
-            color: #fff;
-            padding: 20px;
-        }
-        .main-info h1 {
-            margin: 0;
-        }
-        .hobbies, .lewis, .course, .job {
-            background: #e7e7e7;
-            padding: 15px;
-            margin-bottom: 10px;
-        }
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        pre { background: #f0f0f0; padding: 10px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="main-info">
-            <h1>[Your First and Last Name]</h1>
-            <h1>Preferred Name: [Your Preferred Name]</h1>
-        </header>
+    <h1>Dice Roller API Test</h1>
+    
+    <h2>Test Endpoints:</h2>
+    
+    <h3>1. Single Die Roll (GET /api/roll/:sides)</h3>
+    <button onclick="testSingleRoll()">Roll D6</button>
+    <pre id="singleResult"></pre>
 
-        <section class="lewis">
-			<h2>Year at Lewis: [Your Years at Lewis]</h2>
-			<h2>Lewis major/minor/concentrations: [Your major/minor/concentrations]</h2>
-			<h2>Reasons for pursuing this degree: [Your reasons for pursuing the degree]</h2>
-        </section>
+    <h3>2. Multiple Dice Roll (POST /api/roll)</h3>
+    <button onclick="testMultipleRoll()">Roll 3D6</button>
+    <pre id="multipleResult"></pre>
 
-		<section class="course">
-            <h2>Reasons for Taking This Course</h2>
-            <p>[Your reasons for taking this course]</p>
-        </section>
+    <h3>3. Health Check (GET /api/health)</h3>
+    <button onclick="testHealth()">Check Health</button>
+    <pre id="healthResult"></pre>
 
-		<section class="job">
-            <p>Current/Recent Job</p>
-			<p>[Your job responsibilities]</p>
-        </section>		
+    <script>
+        async function testSingleRoll() {
+            const response = await fetch('/api/roll/6');
+            const data = await response.json();
+            document.getElementById('singleResult').textContent = 
+                JSON.stringify(data, null, 2);
+        }
 
-        <section class="hobbies">
-            <h2>Hobbies and Special Interests</h2>
-            <p>[Your hobbies or special interests]</p>
-        </section>
+        async function testMultipleRoll() {
+            const response = await fetch('/api/roll', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ count: 3, sides: 6 })
+            });
+            const data = await response.json();
+            document.getElementById('multipleResult').textContent = 
+                JSON.stringify(data, null, 2);
+        }
 
-        <section class="fun-fact">
-            <h2>Fun Fact</h2>
-            <p>[A fun fact about yourself]</p>
-        </section>
-    </div>
+        async function testHealth() {
+            const response = await fetch('/api/health');
+            const data = await response.json();
+            document.getElementById('healthResult').textContent = 
+                JSON.stringify(data, null, 2);
+        }
+    </script>
 </body>
 </html>
